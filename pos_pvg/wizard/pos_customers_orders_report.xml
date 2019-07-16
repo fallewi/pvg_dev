@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_customers_orders_report_wizard" model="ir.ui.view">
+        <field name="name">pos.customers.orders.report.wizard.form</field>
+        <field name="model">pos.customers.orders.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Customers Orders Report">
+                <group>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <group>
+                    <field name="customers" colspan="4" nolabel="0" />
+                </group>
+                <group>
+                    <field name="products" colspan="4" nolabel="0" />
+                </group>
+                <footer>
+                    <button name="generate_report" string="Create Reports" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="act_open_view_pos_customers_orders_report_view">
+        <field name="name">POS Custoemrs Orders Reports</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.customers.orders.report.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="act_open_view_pos_customers_orders_report_form">
+        <field name="act_window_id" ref="act_open_view_pos_customers_orders_report_view" />
+        <field name="sequence" eval="20" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_pos_customers_orders_report_wizard" />
+    </record>
+
+    <menuitem id="menu_pos_customers_orders_report" name="Customers Orders Reports" parent="point_of_sale.menu_point_rep" action="act_open_view_pos_customers_orders_report_view" />
+
+</odoo>
