@@ -17,14 +17,14 @@ class posSalesCostReport(models.Model):
     products = fields.Many2many(
         string=u'Products',
         comodel_name='product.template',
-        relation='product_template_pos_sales_caost_report_rel',
+        relation='pos_sales_caost_report_product_template_rel',
         column1='product_template_id',
         column2='pos_sales_caost_report_id',
     )
     pos_orders = fields.Many2many(
         string=u'POS Orders',
         comodel_name='pos.order',
-        relation='pos_order_pos_sales_caost_report_rel',
+        relation='pos_sales_caost_report_pos_order_rel',
         column1='pos_order_id',
         column2='pos_sales_caost_report_id',
         compute='compute_pos_orders',
@@ -34,8 +34,13 @@ class posSalesCostReport(models.Model):
         string=u'Report Lines',
         comodel_name='pos.sales.cost.report.line',
         inverse_name='pos_sales_cost_report',
-        compute='compute_report_lines',
+        # compute='compute_report_lines',
     )
+    
+    sales = fields.Float(
+        string=u'Sales',
+    )
+    
     
     @api.onchange('start_date_time','end_date_time')
     def compute_name(self):
@@ -52,10 +57,65 @@ class posSalesCostReport(models.Model):
                 ids.append(pos_order.id)
             record.pos_orders = [(6, 0, ids)]
 
-    @api.onchange('pos_orders')
-    def compute_report_lines(self):
-        for record in self:
+    # @api.onchange('pos_orders')
+    # def compute_report_lines(self):
+    #     for record in self:
 
+    #         # self.env['pos.sales.cost.report.line'].search(['|',('pos_sales_cost_report','=',False),('pos_sales_cost_report','=',id)]).unlink()
+
+    #         report_lines = []
+    #         t_quantity = 0.0
+    #         t_sales_price = 0.0
+    #         t_sales = 0.0
+    #         t_discount = 0.0
+    #         t_discount_per = 0.0
+    #         t_total_cost = 0.0
+    #         t_cost = 0.0
+    #         t_cost_per = 0.0
+    #         for product in record.products:
+    #             quantity = 0.0
+    #             sales = 0.0
+    #             discount = 0.0
+    #             discount_per = 0.0
+    #             total_cost = 0.0
+    #             cost_per = 0.0
+    #             for order in record.pos_orders:
+    #                 for order_line in order.lines:
+    #                     if product.id == order_line.product_id.product_tmpl_id.id:
+    #                         quantity += order_line.qty
+    #                         sales += order_line.price_unit * order_line.qty
+    #             discount = (product.list_price * quantity) - sales
+    #             if quantity != 0 and product.list_price !=0:
+    #                 discount_per = 100-((sales/(quantity * product.list_price))*100)
+                    
+    #             total_cost = quantity * product.standard_price
+    #             if quantity !=0 and product.standard_price != 0:
+    #                 cost_per = ((quantity * product.standard_price) / sales)*100
+                    
+    #             if quantity != 0.0:
+    #                 # report_lines.append((0,0,{'product_template': product.id,'quantity': quantity, 'sales_price': product.list_price,'total_sales': sales,'total_discount': discount,'discount_per': discount_per, 'cost': product.standard_price, 'total_cost': total_cost, 'cost_per': cost_per}))
+    #                 report_lines.append({'product_template': product.id,'quantity': quantity, 'sales_price': product.list_price,'total_sales': sales,'total_discount': discount,'discount_per': discount_per, 'cost': product.standard_price, 'total_cost': total_cost, 'cost_per': cost_per})
+    #         #         t_quantity += quantity
+    #         #         t_sales_price += quantity * product.list_price
+    #         #         t_sales += sales
+    #         #         t_discount += discount
+    #         #         t_cost += total_cost
+    #         # if t_quantity != 0.0:
+    #         #     t_discount_per =  100-((t_sales/(t_sales_price))*100)
+    #         # if t_quantity != 0.0:
+    #         #     t_cost_per = (t_cost / t_sales)*100
+    #         # if t_quantity != 0.0:
+    #         #     # report_lines.append((0,0,{'quantity': t_quantity, 'sales_price': t_sales_price,'total_sales': t_sales,'total_discount': t_discount,'discount_per': t_discount_per, 'total_cost': t_cost, 'cost_per': t_cost_per}))
+    #         #     report_lines.append({'quantity': t_quantity, 'sales_price': t_sales_price,'total_sales': t_sales,'total_discount': t_discount,'discount_per': t_discount_per, 'total_cost': t_cost, 'cost_per': t_cost_per})
+    #         if len(report_lines) != 0:
+    #             record.report_lines_ids = record.report_lines_ids.create(report_lines)
+
+    @api.multi
+    def calculate_report_linse(self):
+        for record in self:
+            if record.report_lines_ids:
+                for report_line in record.report_lines_ids:
+                    report_line.unlink()
             # self.env['pos.sales.cost.report.line'].search(['|',('pos_sales_cost_report','=',False),('pos_sales_cost_report','=',id)]).unlink()
 
             report_lines = []
@@ -92,7 +152,7 @@ class posSalesCostReport(models.Model):
                     report_lines.append({'product_template': product.id,'quantity': quantity, 'sales_price': product.list_price,'total_sales': sales,'total_discount': discount,'discount_per': discount_per, 'cost': product.standard_price, 'total_cost': total_cost, 'cost_per': cost_per})
             #         t_quantity += quantity
             #         t_sales_price += quantity * product.list_price
-            #         t_sales += sales
+                    t_sales += sales
             #         t_discount += discount
             #         t_cost += total_cost
             # if t_quantity != 0.0:
@@ -103,8 +163,8 @@ class posSalesCostReport(models.Model):
             #     # report_lines.append((0,0,{'quantity': t_quantity, 'sales_price': t_sales_price,'total_sales': t_sales,'total_discount': t_discount,'discount_per': t_discount_per, 'total_cost': t_cost, 'cost_per': t_cost_per}))
             #     report_lines.append({'quantity': t_quantity, 'sales_price': t_sales_price,'total_sales': t_sales,'total_discount': t_discount,'discount_per': t_discount_per, 'total_cost': t_cost, 'cost_per': t_cost_per})
             if len(report_lines) != 0:
-                record.report_lines_ids = record.report_lines_ids.create(report_lines)
-
+                record.report_lines_ids = report_lines
+                record.sales = t_sales
 
 
 class posSalesCostReportLine(models.TransientModel):

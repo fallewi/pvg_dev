@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://E:/Sources/ERP/ODOO/POS/.idea/POS.iml" filepath="E:/Sources/ERP/ODOO/POS/.idea/POS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../aspl_pos_kitchen_screen_ee/.idea/aspl_pos_kitchen_screen_ee.iml" filepath="$PROJECT_DIR$/../aspl_pos_kitchen_screen_ee/.idea/aspl_pos_kitchen_screen_ee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mrp/.idea/mrp.iml" filepath="$PROJECT_DIR$/../mrp/.idea/mrp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../point_of_sale/.idea/point_of_sale.iml" filepath="$PROJECT_DIR$/../point_of_sale/.idea/point_of_sale.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../point_of_sale_chat/.idea/point_of_sale_chat.iml" filepath="$PROJECT_DIR$/../point_of_sale_chat/.idea/point_of_sale_chat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_debt_notebook/.idea/pos_debt_notebook.iml" filepath="$PROJECT_DIR$/../pos_debt_notebook/.idea/pos_debt_notebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_longpolling/.idea/pos_longpolling.iml" filepath="$PROJECT_DIR$/../pos_longpolling/.idea/pos_longpolling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_mobile/.idea/pos_mobile.iml" filepath="$PROJECT_DIR$/../pos_mobile/.idea/pos_mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_mobile_restaurant/.idea/pos_mobile_restaurant.iml" filepath="$PROJECT_DIR$/../pos_mobile_restaurant/.idea/pos_mobile_restaurant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_multi_session/.idea/pos_multi_session.iml" filepath="$PROJECT_DIR$/../pos_multi_session/.idea/pos_multi_session.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_multi_session_restaurant/.idea/pos_multi_session_restaurant.iml" filepath="$PROJECT_DIR$/../pos_multi_session_restaurant/.idea/pos_multi_session_restaurant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_multi_session_sync/.idea/pos_multi_session_sync.iml" filepath="$PROJECT_DIR$/../pos_multi_session_sync/.idea/pos_multi_session_sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_order_cancel/.idea/pos_order_cancel.iml" filepath="$PROJECT_DIR$/../pos_order_cancel/.idea/pos_order_cancel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_order_cancel_restaurant/.idea/pos_order_cancel_restaurant.iml" filepath="$PROJECT_DIR$/../pos_order_cancel_restaurant/.idea/pos_order_cancel_restaurant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_order_note/.idea/pos_order_note.iml" filepath="$PROJECT_DIR$/../pos_order_note/.idea/pos_order_note.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_orders_history/.idea/pos_orders_history.iml" filepath="$PROJECT_DIR$/../pos_orders_history/.idea/pos_orders_history.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_orders_history_reprint/.idea/pos_orders_history_reprint.iml" filepath="$PROJECT_DIR$/../pos_orders_history_reprint/.idea/pos_orders_history_reprint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_product_available/.idea/pos_product_available.iml" filepath="$PROJECT_DIR$/../pos_product_available/.idea/pos_product_available.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pos_pvg.iml" filepath="$PROJECT_DIR$/.idea/pos_pvg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_restaurant/.idea/pos_restaurant.iml" filepath="$PROJECT_DIR$/../pos_restaurant/.idea/pos_restaurant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_restaurant_base/.idea/pos_restaurant_base.iml" filepath="$PROJECT_DIR$/../pos_restaurant_base/.idea/pos_restaurant_base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_theme_sp/.idea/pos_theme_sp.iml" filepath="$PROJECT_DIR$/../pos_theme_sp/.idea/pos_theme_sp.iml" />
+    </modules>
+  </component>
+</project>

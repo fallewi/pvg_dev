@@ -25,14 +25,14 @@ class posCustomerOrdersReport(models.Model):
     products = fields.Many2many(
         string=u'Products',
         comodel_name='product.template',
-        relation='product_template_pos_customer_orders_report_rel',
+        relation='pos_customer_orders_report_product_template_rel',
         column1='product_template_id',
         column2='pos_customer_orders_report_id',
     )
     pos_orders = fields.Many2many(
         string=u'POS Orders',
         comodel_name='pos.order',
-        relation='pos_order_pos_customer_orders_report_rel',
+        relation='pos_customer_orders_report_pos_order_rel',
         column1='pos_order_id',
         column2='pos_customer_orders_report_id',
         compute='compute_pos_orders',
@@ -42,8 +42,22 @@ class posCustomerOrdersReport(models.Model):
         string=u'Report Lines',
         comodel_name='pos.customer.orders.report.line',
         inverse_name='pos_customer_orders_report',
-        compute='compute_report_lines',
+        # compute='compute_report_lines',
     )
+    
+    total_quantity = fields.Float(
+        string=u'Total Quantity',
+        # compute='compute_total_quantity',
+    )
+    total_sales = fields.Float(
+        string=u'Total Sales',
+        # compute='compute_total_sales',
+    )
+    total_discount = fields.Float(
+        string=u'Total Discount',
+        # compute='compute_total_discount',
+    )
+    
 
     @api.onchange('start_date', 'end_date', 'customer')
     def compute_name(self):
@@ -63,11 +77,40 @@ class posCustomerOrdersReport(models.Model):
                     orders_ids.append(pos_order.id)
                 record.pos_orders = [(6, 0, orders_ids)]
 
-    @api.onchange('pos_orders','products','customer')
-    def compute_report_lines(self):
+    # @api.onchange('pos_orders','products','customer')
+    # def compute_report_lines(self):
+    #     for record in self:
+    #         if record.customer and record.pos_orders:
+    #             report_lines = []
+    #             if record.products:
+    #                 for product in record.products:
+    #                     quantity = 0.0
+    #                     sales = 0.0
+    #                     discount = 0.0
+    #                     for order in record.pos_orders:
+    #                         if order.partner_id.id == record.customer.id:
+    #                             for order_line in order.lines:
+    #                                 if product.id == order_line.product_id.product_tmpl_id.id:
+    #                                     quantity += order_line.qty
+    #                                     sales += order_line.price_unit * order_line.qty
+    #                                     discount = (product.list_price * quantity) - sales
+    #                     if quantity != 0.0:
+    #                         report_lines.append((0,0,{'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount}))
+    #                         # report_lines.append({'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount})
+    #                 if len(report_lines) != 0.0:
+    #                     record.report_lines_ids = record.report_lines_ids.create(report_lines)
+
+    @api.multi
+    def calculate_report_linse(self):
         for record in self:
+            if record.report_lines_ids:
+                for report_line in record.report_lines_ids:
+                    report_line.unlink()
             if record.customer and record.pos_orders:
                 report_lines = []
+                t_quantity = 0.0
+                t_sales = 0.0
+                t_discount = 0.0
                 if record.products:
                     for product in record.products:
                         quantity = 0.0
@@ -81,13 +124,48 @@ class posCustomerOrdersReport(models.Model):
                                         sales += order_line.price_unit * order_line.qty
                                         discount = (product.list_price * quantity) - sales
                         if quantity != 0.0:
-                            # report_lines.append((0,0,{'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount}))
-                            report_lines.append({'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount})
+                            t_quantity += quantity
+                            t_sales += sales
+                            t_discount += discount
+
+                            report_lines.append((0,0,{'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount}))
+                            # report_lines.append({'product_template': product.id, 'customer': record.customer.id, 'quantity': quantity, 'sales': sales, 'discount': discount})
                     if len(report_lines) != 0.0:
-                        record.report_lines_ids = record.report_lines_ids.create(report_lines)
+                        record.report_lines_ids = report_lines
+                        record.total_quantity = t_quantity
+                        record.total_sales = t_sales
+                        record.total_discount = t_discount
 
 
-class posSalesCostReportLine(models.TransientModel):
+
+    # @api.onchange('report_lines_ids')
+    # def compute_total_quantity(self):
+    #     for record in self:
+    #         if record.report_lines_ids:
+    #             t_quantity = 0.0
+    #             for line in record.report_lines_ids:
+    #                 t_quantity += line.quantity
+    #             record.total_quantity = t_quantity
+
+    # @api.onchange('report_lines_ids')
+    # def compute_total_sales(self):
+    #     for record in self:
+    #         if record.report_lines_ids:
+    #             t_sales = 0.0
+    #             for line in record.report_lines_ids:
+    #                 t_sales += line.sales
+    #             record.total_sales = t_sales
+
+    # @api.onchange('report_lines_ids')
+    # def compute_total_discount(self):
+    #     for record in self:
+    #         if record.report_lines_ids:
+    #             t_discount = 0.0
+    #             for line in record.report_lines_ids:
+    #                 t_discount += line.discount
+    #             record.total_discount = t_discount
+
+class posCustomerOrdersReportLine(models.TransientModel):
     _name = "pos.customer.orders.report.line"
     _description = "PoS customer orders report Line"
 

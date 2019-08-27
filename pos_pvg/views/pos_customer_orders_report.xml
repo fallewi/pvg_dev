@@ -10,6 +10,10 @@
                     <field name="customer"/>
                     <field name="start_date" />
                     <field name="end_date" />
+                    <field name="products"/>
+                    <field name="total_quantity"/>
+                    <field name="total_sales"/>
+                    <field name="total_discount"/>
                 </tree>
             </field>
         </record>
@@ -35,7 +39,11 @@
                             <field name="products"/>
                         </group>
                         <group>
-                            <field name="pos_orders" invisible="0" />
+                            <field name="pos_orders" invisible="1" />
+                        </group>
+                        <group>
+                            <button name="calculate_report_linse" string="Calculate" type="object" class="btn-primary"/>
+                            <!-- <button string="Cancel" class="btn-secondary" special="cancel" /> -->
                         </group>
                         <group>
                             <field name="report_lines_ids">

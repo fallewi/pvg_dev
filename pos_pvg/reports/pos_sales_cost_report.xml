@@ -5,7 +5,6 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <t t-foreach="docs" t-as="doc">
                         <br/>
                         <br/>
                         <div class="row bg-primary">
@@ -15,6 +14,7 @@
                         </div>
                         <br/>
                         <br/>
+                        <t t-foreach="docs" t-as="doc">
                         <div class="row">
                             <div class="col-6">
                                 <strong>From: </strong>
@@ -110,28 +110,29 @@
                                         <span>-</span>
                                     </th>
                                     <th>
-                                        <span t-esc="t_total_sales"/>
+                                        <span t-esc="'{:10.2f}'.format(t_total_sales)"/>
                                     </th>
                                     <th>
                                         <span t-esc="'{:10.2f}'.format(t_total_discount)"/>
                                     </th>
                                     <th>
-                                        <t t-set="t_discount_per" t-value="'{:10.2f}'.format((t_total_discount/(t_total_discount+t_total_sales))*100)"/>
-                                        <span t-esc="t_discount_per"/>
+                                        <t t-set="t_discount_per" t-value="(t_total_discount/(t_total_discount+t_total_sales))*100"/>
+                                        <span t-esc="'{:10.2f}'.format(t_discount_per)"/>
                                     </th>
                                     <th>
                                         <span>-</span>
                                     </th>
                                     <th>
-                                        <span t-esc="t_total_cost"/>
+                                        <span t-esc="'{:10.2f}'.format(t_total_cost)"/>
                                     </th>
                                     <th>
-                                        <t t-set="t_cost_per" t-value="'{:10.2f}'.format((t_total_cost/t_total_sales)*100)"/>
-                                        <span t-esc="t_cost_per"/>
+                                        <t t-set="t_cost_per" t-value="(t_total_cost/t_total_sales)*100"/>
+                                        <span t-esc="'{:10.2f}'.format(t_cost_per)"/>
                                     </th>
                                 </tr>
                             </tbody>
                         </table>
+                        <hr/>
                         <style>
                         table th, table td {
                             padding: 5px 5px 5px 5px !important;
