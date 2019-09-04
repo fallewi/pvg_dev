@@ -5,3 +5,4 @@ from . import pos_make_mrp
 from . import product_template
 from . import pos_order
 from . import pos_session
+from . import mrp_bom
